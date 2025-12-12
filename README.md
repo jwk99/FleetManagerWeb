@@ -39,13 +39,45 @@ Umożliwia podstawowe operacje CRUD na pojazdach, kierowcach, serwisach i urlopa
 - Wykresy kosztów miesięcznych
 - Podsumowania i wizualizacje danych
 
-## Technologie
+## Wymagania
+
+Aby uruchomić projekt **FleetManagerWeb**, wymagane są:
+
+### **System**
+- Windows / Linux / macOS
+
+### **Środowisko .NET**
+- **.NET 8 SDK** (lub nowszy)  
+  Pobierz: https://dotnet.microsoft.com/download
+
+### **Narzędzia developerskie** (opcjonalnie)
+- **Visual Studio 2022** (zalecane)  
+  - Workload: *ASP.NET and web development*
+  - Workload: *Entity Framework Core tools* (instalowane automatycznie)
+lub
+- **Visual Studio Code**  
+  - Extension: *C# Dev Kit*
+
+### **Entity Framework Core CLI**  
+Do migracji i obsługi bazy:
+- ```bash
+  dotnet tool install --global dotnet-ef
+
+### **Baza danych**
+Projekt domyślnie korzysta z **SQLite**
+(plik .db tworzony automatycznie po migracji)
+Można użyć SQL Server, edytując appsettings.json.
+
+### Technologie
 
 - **ASP.NET Core Razor Pages**
 - **Entity Framework Core** (SQLite / SQL Server)
 - **Chart.js** — wykresy w dashboardzie
 - **QuestPDF** + **SkiaSharp** — generowanie raportów PDF
 - **Bootstrap 5** — wygląd UI
+Wszystkie zależności instalowane są automatycznie przez:
+-   ```bash
+    dotnet restore
 
 ## Uruchomienie projektu lokalnie
 
