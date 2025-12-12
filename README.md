@@ -109,4 +109,4 @@ Projekt jest częścią praktyk – demonstruje umiejętność budowy aplikacji 
 Dostęp do wszystkich stron można zabezpieczyć logowaniem (opcjonalne rozszerzenie).
 
 ## Autor
-Jan Kruk
+jwk99
