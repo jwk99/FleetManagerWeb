@@ -1,0 +1,36 @@
+﻿    @page
+    @model FleetManagerWeb.Pages.Vehicles.CreateModel
+@{
+    ViewData["Title"] = "Dodaj pojazd";
+}
+
+    <h1>Dodaj pojazd</h1>
+
+    <form method="post">
+        <div class="form-group">
+            <label>Marka</label>
+            <input class="form-control" asp-for="Vehicle.Brand"/>
+        </div>
+        <div class="form-group">
+            <label>Model</label>
+            <input class="form-control" asp-for="Vehicle.Model" />
+        </div>
+        <div class="form-group">
+            <label>Rejestracja</label>
+            <input class="form-control" asp-for="Vehicle.Registration" />
+        </div>
+        <div class="form-group">
+            <label>VIN</label>
+            <input class="form-control" asp-for="Vehicle.VIN" />
+        </div>
+        <div class="form-group">
+            <label>Rok</label>
+            <input class="form-control" asp-for="Vehicle.Year" />
+        </div>
+        <div class="form-group">
+            <label>Przebieg</label>
+            <input class="form-control" asp-for="Vehicle.Mileage" />
+        </div>
+        <button class="btn btn-success mt-3" type="submit">Zapisz</button>
+        <a class="btn btn-secondary mt-3" href="/Vehicles">Wróć</a>
+    </form>

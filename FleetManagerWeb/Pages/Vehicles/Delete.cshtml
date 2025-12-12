@@ -1,0 +1,16 @@
+﻿@page
+@model FleetManagerWeb.Pages.Vehicles.DeleteModel
+@{
+    ViewData["Title"] = "Usuń pojazd";
+}
+<h1>Usuń pojazd</h1>
+
+<div class="alert alert-danger">
+    Czy na pewno chcesz usunąć pojazd:
+    <strong>@Model.Vehicle.Brand @Model.Vehicle.Model (@Model.Vehicle.Registration)</strong>?
+</div>
+
+<form method="post">
+    <button class="btn btn-danger" type="submit">Usuń</button>
+    <a class="btn btn-secondary" href="/Vehicles">Anuluj</a>
+</form>

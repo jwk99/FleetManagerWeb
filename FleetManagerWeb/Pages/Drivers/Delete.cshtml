@@ -1,0 +1,14 @@
+﻿@page
+@model FleetManagerWeb.Pages.Drivers.DeleteModel
+@{
+    ViewData["Title"] = "Usuń kierowcę";
+}
+<h1>Usuń kierowcę</h1>
+
+<p>Czy na pewno chcesz usunąć kierowcę <strong>@Model.Driver.FirstName @Model.Driver.LastName</strong>?</p>
+
+<form method="post">
+    <input type="hidden" asp-for="Driver.Id" />
+    <button class="btn btn-danger">Usuń</button>
+    <a class="btn btn-secondary" asp-page="Index">Wróć</a>
+</form>

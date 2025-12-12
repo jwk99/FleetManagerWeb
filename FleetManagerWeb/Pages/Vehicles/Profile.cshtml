@@ -1,0 +1,86 @@
+﻿@page
+@model FleetManagerWeb.Pages.Vehicles.ProfileModel
+@{
+    ViewData["Title"] = $"Profil pojazdu {Model.Vehicle.Registration}";
+}
+<h2>Profil pojazdu: @Model.Vehicle.Registration</h2>
+
+
+<div class="card p-3 mt-3 shadow-sm">
+    
+    <h4>Dane techniczne</h4>
+    <p><b>Marka:</b> @Model.Vehicle.Brand</p>
+    <p><b>Model:</b> @Model.Vehicle.Model</p>
+    <p><b>Rok:</b> @Model.Vehicle.Year</p>
+    <p><b>VIN:</b> @Model.Vehicle.VIN</p>
+    <p><b>Przebieg:</b> @Model.Vehicle.Mileage</p>
+    <a class="btn btn-danger" href="/Vehicles/ProfilePDF?id=@Model.Vehicle.Id">Pobierz PDF</a>
+</div>
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card p-3 shadow-sm">
+            <h5>Łączny koszt</h5>
+            <h2>@Model.Vehicle.TotalCost zł</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 shadow-sm">
+            <h5>Liczba serwisów</h5>
+            <h2>@Model.Vehicle.TotalServices</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 shadow-sm">
+            <h5>Ostatni serwis</h5>
+            <h2>@(Model.Vehicle.LastServiceDate?.ToShortDateString() ?? "-")</h2>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<h3>Historia serwisów</h3>
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Opis</th>
+            <th>Koszt</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model.Vehicle.Services)
+        {
+            <tr>
+                <td>@s.Date.ToShortDateString()</td>
+                <td>@s.Description</td>
+                <td>@s.Cost zł</td>
+                <td>@(s.IsCompleted ? "Zakończony" : "Oczekujący")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+            Model.Vehicle.Services.Select(s => s.Date.ToShortDateString())));
+
+        const costs = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+            Model.Vehicle.Services.Select(s => s.Cost)));
+
+        new Chart(document.getElementById('costChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Koszt (zł)',
+                    data: costs
+                }]
+            }
+        });
+    </script>
+}

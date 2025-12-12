@@ -1,0 +1,42 @@
+﻿@page
+@model FleetManagerWeb.Pages.Vacations.CreateModel
+@{
+    ViewData["Title"] = "Dodaj urlop";
+}
+<h2>Dodaj urlop</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label">Kierowca</label>
+        <select class="form-select" asp-for="Vacation.DriverId">
+            <option value="">-- wybierz kierowcę --</option>
+            @foreach (var d in Model.Drivers)
+            {
+                <option value="@d.Id">@d.FirstName @d.LastName</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Od</label>
+        <input asp-for="Vacation.From" type="date" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Do</label>
+        <input asp-for="Vacation.To" type="date" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Kierowca zastępujący</label>
+        <select class="form-select" asp-for="Vacation.SubstituteDriverId">
+            <option value="">-- brak --</option>
+            @foreach (var d in Model.Drivers)
+            {
+                <option value="@d.Id">@d.FirstName @d.LastName</option>
+            }
+        </select>
+    </div>
+    <button class="btn btn-success">Zapisz</button>
+    <a href="/Vacations/Index" class="btn btn-secondary">Anuluj</a>
+</form>

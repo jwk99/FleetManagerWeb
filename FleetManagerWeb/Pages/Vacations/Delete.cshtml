@@ -1,0 +1,35 @@
+﻿@page
+@model FleetManagerWeb.Pages.Vacations.DeleteModel
+@{
+    ViewData["Title"] = "Usuń urlop";
+}
+<h2>Usuń urlop</h2>
+
+<div class="alert alert-warning">
+    Czy na pewno chcesz usunąć ten urlop?
+</div>
+
+<table class="table">
+    <tr>
+        <th>Kierowca:</th>
+        <td>@Model.Vacation.Driver.FirstName @Model.Vacation.Driver.LastName</td>
+    </tr>
+    <tr>
+        <th>Od:</th>
+        <td>@Model.Vacation.From.ToShortDateString()</td>
+    </tr>
+    <tr>
+        <th>Do:</th>
+        <td>@Model.Vacation.To.ToShortDateString()</td>
+    </tr>
+    <tr>
+        <th>Zastępca:</th>
+        <td>@(Model.Vacation.SubstituteDriver != null ? Model.Vacation.SubstituteDriver.FirstName + " " + Model.Vacation.SubstituteDriver.LastName : "-")</td>
+    </tr>
+</table>
+
+<form method="post">
+    <input type="hidden" asp-for="Vacation.Id" />
+    <button class="btn btn-danger">Usuń</button>
+    <a class="btn btn-secondary" href="/Vacations/Index">Anuluj</a>
+</form>

@@ -1,0 +1,42 @@
+﻿@page
+@model FleetManagerWeb.Pages.ServiceRecords.CreateModel
+@{
+    ViewData["Title"] = "Dodaj serwis";
+}
+
+<h1>Dodaj wpis serwisowy</h1>
+
+<form method="post">
+    <div class="mb-3">
+        <label>Pojazd</label>
+        <select class="form-control" asp-for="Record.VehicleId" asp-items="Model.Vehicles"></select>
+    </div>
+
+    <div class="mb-3">
+        <label>Kierowca</label>
+        <select class="form-control" asp-for="Record.DriverId" asp-items="Model.Drivers">
+            <option value="">Brak</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Data</label>
+        <input type="date" class="form-control" asp-for="Record.Date" />
+    </div>
+
+    <div class="mb-3">
+        <label>Opis</label>
+        <textarea class="form-control" asp-for="Record.Description"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label>Koszt</label>
+        <input class="form-control" asp-for="Record.Cost" />
+    </div>
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" asp-for="Record.IsCompleted" />
+        <label class="form-check-label">Serwis wykonany</label>
+    </div>
+    <button class="btn btn-success">Zapisz</button>
+    <a class="btn btn-secondary" asp-page="Index">Wróć</a>
+</form>

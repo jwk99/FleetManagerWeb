@@ -1,0 +1,84 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<h1>Dashboard floty</h1>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card p-3 shadow">
+            <h4>Pojazdy</h4>
+            <h2>@Model.VehicleCount</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 shadow">
+            <h4>Kierowcy</h4>
+            <h2>@Model.DriverCount</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 shadow">
+            <h4>Koszty serwisów @DateTime.Now.Year</h4>
+            <h2>@Model.ServiceCostYear</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 shadow">
+            <h4>Średni wiek pojazdów</h4>
+            <h2>@Model.AverageVehicleAge.ToString("0.0") lata</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 shadow">
+            <h4>Pojazdy na kierowcę</h4>
+            <h2>@Model.VehiclesPerDriver</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 shadow">
+            <h4 class="text-danger">Zaległe serwisy</h4>
+            <p class="card-text">
+                Liczba serwisów, których termin minął i nie zostały oznaczone jako wykonane.
+            </p>
+            <h3 class="text-danger fw-bold">@Model.OverdueServices</h3>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<h3>Koszty serwisowe w miesiącach</h3>
+<canvas id="serviceChart"></canvas>
+<hr />
+<a class="btn btn-danger mb-3" href="ExportToPDF">Pobierz raport PDF</a>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const monthlyData=@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.MonthlyCosts));
+        const ctx=document.getElementById('serviceChart');
+        new Chart(ctx, {
+            type:'bar',
+            data:{
+                labels: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec',
+                         'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
+                datasets: [{
+                    label: 'Koszt (zł)',
+                    data: monthlyData
+                }]
+            },
+            options:{
+                responsive:true,
+                scales:{
+                    y:{
+                        beginAtZero:true
+                    }
+                }
+            }
+        });
+    </script>
+}

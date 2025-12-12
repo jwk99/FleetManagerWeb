@@ -1,0 +1,49 @@
+﻿@page
+@model FleetManagerWeb.Pages.Drivers.IndexModel
+@{
+    ViewData["Title"] = "Kierowcy";
+}
+
+<h1>Kierowcy</h1>
+<a class="btn btn-primary mb-3" asp-page="Create">Dodaj kierowcę</a>
+
+<table id="recordsTable" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Telefon</th>
+            <th>Numer prawa jazdy</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model.Drivers)
+        {
+            <tr>
+                <td>@d.FirstName</td>
+                <td>@d.LastName</td>
+                <td>@d.Phone</td>
+                <td>@d.LicenseNumber</td>
+                <td>
+                    <a class="btn btn-sm btn-warning" asp-page="Edit" asp-route-id="@d.Id">Edytuj</a>
+                    <a class="btn btn-sm btn-danger" asp-page="Delete" asp-route-id="@d.Id">Usuń</a>
+                    <a class="btn btn-sm btn-info" href="/Drivers/Profile?id=@d.Id">Analiza</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<a class="btn btn-info mb-3" href="/Drivers/Analytics">📊 Analiza kierowców</a>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#recordsTable').DataTable({
+                paging: false,
+                info: false
+            });
+        });
+    </script>
+}

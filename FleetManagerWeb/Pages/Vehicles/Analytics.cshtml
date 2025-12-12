@@ -1,0 +1,99 @@
+﻿@page
+@model FleetManagerWeb.Pages.Vehicles.AnalyticsModel
+@{
+    ViewData["Title"] = "Analiza pojazdów";
+}
+
+<h1>Analiza pojazdów</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Rejestracja</th>
+            <th>Suma kosztów</th>
+            <th>Liczba serwisów</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var v in Model.Analytics)
+        {
+            <tr>
+                <td>@v.Registration</td>
+                <td>@v.TotalServiceCost zł</td>
+                <td>@v.ServiceCount</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Koszty serwisów per pojazd</h3>
+<canvas id="costChart"></canvas>
+
+<h3 class="mt-4">Liczba serwisów per pojazd</h3>
+<canvas id="countChart"></canvas>
+
+<h2 class="mt-5">Predykcja awaryjności</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Pojazd</th>
+            <th>Ryzyko</th>
+            <th>Wynik (0–15)</th>
+            <th>Prawdopodobieństwo awarii</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var v in Model.Analytics)
+        {
+            var color =
+            v.RiskLevel == "Wysokie" ? "text-danger fw-bold" :
+            v.RiskLevel == "Średnie" ? "text-warning fw-bold" :
+            "text-success fw-bold";
+
+            <tr>
+                <td>@v.Registration</td>
+                <td class="@color">@v.RiskLevel</td>
+                <td>@v.RiskScore</td>
+                <td>@v.Probability %</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                    Model.Analytics.Select(a => a.Registration)));
+
+    const costData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                Model.Analytics.Select(a => a.TotalServiceCost)));
+
+    const countData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                Model.Analytics.Select(a => a.ServiceCount)));
+
+    new Chart(document.getElementById('costChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Koszt (zł)',
+                data: costData
+            }]
+        }
+    });
+
+        new Chart(document.getElementById('countChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Serwisy',
+                    data: countData
+                }]
+            }
+        });
+    </script>
+}

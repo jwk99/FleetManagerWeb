@@ -1,0 +1,18 @@
+﻿@page
+@model FleetManagerWeb.Pages.ServiceRecords.DeleteModel
+@{
+    ViewData["Title"] = "Usuń serwis";
+}
+
+<h1>Usuń wpis</h1>
+<div class="alert alert-danger">
+    Czy na pewno chcesz usunąć rekord serwisowy?
+</div>
+<p><strong>Pojazd:</strong> @Model.Record.Vehicle.Brand @Model.Record.Vehicle.Model</p>
+<p><strong>Data:</strong> @Model.Record.Date.ToShortDateString()</p>
+<p><strong>Opis:</strong> @Model.Record.Description</p>
+<form method="post">
+    <input type="hidden" asp-for="Record.Id" />
+    <button class="btn btn-danger">Usuń</button>
+    <a class="btn btn-secondary" asp-page="Index">Anuluj</a>
+</form>

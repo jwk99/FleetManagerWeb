@@ -1,0 +1,98 @@
+﻿@page
+@model FleetManagerWeb.Pages.Drivers.AnalyticsModel
+@{
+    ViewData["Title"] = "Analiza kierowców";
+}
+<h1>Analiza kierowców</h1>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+            <h5>Łączna liczba kierowców</h5>
+            <h2>@Model.TotalDrivers</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+            <h5>Łączna liczba serwisów</h5>
+            <h2>@Model.TotalServices</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+            <h5>Suma kosztów serwisów</h5>
+            <h2>@Model.TotalCostAll</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+            <h5>Średni koszt serwisu</h5>
+            <h2>@Model.AverageCostAll</h2>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<h3>Statystyki dla kierowców</h3>
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Kierowca</th>
+            <th>Liczba serwisów</th>
+            <th>Suma kosztów</th>
+            <th>Średni koszt</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model.Stats)
+        {
+            <tr>
+                <td>@s.Name</td>
+                <td>@s.ServiceCount</td>
+                <td>@s.TotalCost</td>
+                <td>@s.AverageCost</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Wykresy</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <h5>Koszt serwisów per kierowca</h5>
+        <canvas id="costChart"></canvas>
+    </div>
+
+    <div class="col-md-6">
+        <h5>Liczba serwisów per kierowca</h5>
+        <canvas id="countChart"></canvas>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Stats.Select(s => s.Name)));
+        const costs = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Stats.Select(s => s.TotalCost)));
+        const counts = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Stats.Select(s => s.ServiceCount)));
+
+        new Chart(document.getElementById('costChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{ label: 'Koszt (zł)', data: costs }]
+            }
+        });
+
+        new Chart(document.getElementById('countChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{ label: 'Liczba serwisów', data: counts }]
+            }
+        });
+    </script>
+}

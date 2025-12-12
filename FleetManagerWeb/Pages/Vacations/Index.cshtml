@@ -1,0 +1,36 @@
+﻿@page
+@model FleetManagerWeb.Pages.Vacations.IndexModel
+@{
+    ViewData["Title"] = "Urlopy";
+}
+<h2>Urlopy kierowców</h2>
+
+<a class="btn btn-primary mb-3" href="/Vacations/Create">Dodaj urlop</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Kierowca</th>
+            <th>Od</th>
+            <th>Do</th>
+            <th>Zastępca</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var v in Model.Vacations)
+        {
+            <tr>
+                <td>@v.Driver.FirstName @v.Driver.LastName</td>
+                <td>@v.From.ToShortDateString()</td>
+                <td>@v.To.ToShortDateString()</td>
+                <td>@(v.SubstituteDriver != null ? v.SubstituteDriver.FirstName + " " + v.SubstituteDriver.LastName : "-")</td>
+                <td>
+                    <a class="btn btn-sm btn-info" href="/Vacations/Details?id=@v.Id">Szczegóły</a>
+                    <a class="btn btn-sm btn-warning" href="/Vacations/Edit?id=@v.Id">Edytuj</a>
+                    <a class="btn btn-sm btn-danger" href="/Vacations/Delete?id=@v.Id">Usuń</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

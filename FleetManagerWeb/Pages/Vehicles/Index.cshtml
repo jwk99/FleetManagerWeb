@@ -1,0 +1,49 @@
+﻿@page
+@model FleetManagerWeb.Pages.Vehicles.IndexModel
+@{
+    ViewData["Title"] = "Pojazdy";
+}
+<h1>Pojazdy</h1>
+
+<a class="btn btn-primary" href="/Vehicles/Create">Dodaj pojazd</a>
+
+<table id="recordsTable" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Marka</th>
+            <th>Model</th>
+            <th>Rejestracja</th>
+            <th>Rok</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var v in Model.Vehicles)
+        {
+            <tr>
+                <td>@v.Brand</td>
+                <td>@v.Model</td>
+                <td>@v.Registration</td>
+                <td>@v.Year</td>
+                <td>
+                    <a class="btn btn-sm btn-warning" href="/Vehicles/Edit?id=@v.Id">Edytuj</a>
+                    <a class="btn btn-sm btn-danger" href="/Vehicles/Delete?id=@v.Id">Usuń</a>
+                    <a class="btn btn-sm btn-info" href="/Vehicles/Profile?id=@v.Id">Analiza</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<a class="btn btn-info mb-3" href="/Vehicles/Analytics">📊 Analiza pojazdów</a>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#recordsTable').DataTable({
+                paging: false,
+                info: false
+            });
+        });
+    </script>
+}

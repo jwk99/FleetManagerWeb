@@ -1,0 +1,64 @@
+﻿@page
+@model FleetManagerWeb.Pages.ServiceRecords.IndexModel
+@{
+    ViewData["Title"] = "Serwisy";
+}
+<h1>Historia Serwisowa</h1>
+
+<a class="btn btn-primary mb-3" asp-page="Create">Dodaj wpis</a>
+
+<table id="recordsTable" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Pojazd</th>
+            <th>Kierowca</th>
+            <th>Opis</th>
+            <th>Koszt</th>
+            <th>Wykonano?</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model.Records)
+        {
+            <tr>
+                <td>@r.Date.ToShortDateString()</td>
+                <td>@($"{r.Vehicle.Brand} {r.Vehicle.Model} ({r.Vehicle.Registration})")</td>
+                <td>@(r.Driver !=null ? $"{r.Driver.FirstName} {r.Driver.LastName}" : "-")</td>
+                <td>@r.Description</td>
+                <td>@r.Cost</td>
+                <td>
+                    @if(r.IsCompleted)
+                    {
+                        <span class="badge bg-success">Tak</span>
+                    }
+                    else if (r.Date < DateTime.Now)
+                    {
+                        <span class="badge bg-danger">Zaległy</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning text-dark">Planowany</span>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-warning" asp-page="Edit" asp-route-id="@r.Id">Edytuj</a>
+                    <a class="btn btn-sm btn-danger" asp-page="Delete" asp-route-id="@r.Id">Usuń</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#recordsTable').DataTable({
+                paging: false,
+                info: false
+            });
+        });
+    </script>
+}

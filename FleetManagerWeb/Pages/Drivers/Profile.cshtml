@@ -1,0 +1,85 @@
+﻿@page
+@model FleetManagerWeb.Pages.Drivers.ProfileModel
+@{
+    ViewData["Title"] = "Profil kierowcy";
+}
+<div class="card p-3 mt-3 shadow-sm">
+    <h4>Dane osobowe</h4>
+    <p><b>Telefon:</b> @Model.Driver.Phone</p>
+    <p><b>Numer prawa jazdy:</b> @Model.Driver.LicenseNumber</p>
+    <a class="btn btn-danger" href="/Drivers/ProfilePDF?id=@Model.Driver.DriverId">Pobierz PDF</a>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card p-3 shadow-sm">
+            <h5>Liczba serwisów</h5>
+            <h2>@Model.Driver.TotalServices</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 shadow-sm">
+            <h5>Łączny koszt serwisów</h5>
+            <h2>@Model.Driver.TotalCost zł</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 shadow-sm">
+            <h5>Średni koszt</h5>
+            <h2>@Model.Driver.AverageCost zł</h2>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<h3>Wykres kosztów serwisów</h3>
+<canvas id="costChart"></canvas>
+
+<hr />
+
+<h3>Historia serwisów kierowcy</h3>
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Pojazd</th>
+            <th>Opis</th>
+            <th>Koszt</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model.Driver.Services)
+        {
+            <tr>
+                <td>@s.Date.ToShortDateString()</td>
+                <td>@s.Vehicle</td>
+                <td>@s.Description</td>
+                <td>@s.Cost zł</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                    Model.Driver.Services.Select(s => s.Date.ToShortDateString())));
+
+    const costs = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                Model.Driver.Services.Select(s => s.Cost)));
+
+    new Chart(document.getElementById('costChart'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Koszt (zł)',
+                data: costs
+            }]
+        }
+    });
+</script>
+}

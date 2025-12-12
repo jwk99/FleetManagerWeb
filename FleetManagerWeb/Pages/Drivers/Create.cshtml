@@ -1,0 +1,28 @@
+﻿@page
+@model FleetManagerWeb.Pages.Drivers.CreateModel
+@{
+    ViewData["Title"] = "Dodaj kierowcę";
+}
+<h1>Dodaj Kierowcę</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label>Imię</label>
+        <input class="form-control" asp-for="Driver.FirstName" />
+    </div>
+    <div class="form-group">
+        <label>Nazwisko</label>
+        <input class="form-control" asp-for="Driver.LastName" />
+    </div>
+    <div class="form-group">
+        <label>Telefon</label>
+        <input class="form-control" asp-for="Driver.Phone" />
+    </div>
+    <div class="form-group">
+        <label>Numer prawa jazdy</label>
+        <input class="form-control" asp-for="Driver.LicenseNumber" />
+    </div>
+
+    <button class="btn btn-success mt-3" type="submit">Zapisz</button>
+    <a class="btn btn-secondary mt-3" asp-page="Index">Wróć</a>
+</form>
