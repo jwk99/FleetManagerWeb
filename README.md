@@ -3,6 +3,48 @@
 **FleetManagerWeb** to aplikacja webowa do zarządzania flotą pojazdów, stworzona w ASP.NET Core Razor Pages.  
 Umożliwia podstawowe operacje CRUD na pojazdach, kierowcach, serwisach i urlopach oraz oferuje dashboard z analizą kosztów i generowanie raportów PDF.
 
+## Proces realizacji projektu
+
+### Analiza wymagań
+Celem projektu było stworzenie aplikacji webowej do zarządzania flotą pojazdów.
+Zakres funkcjonalny obejmuje zarządzanie pojazdami, kierowcami, serwisami oraz
+prezentację danych analitycznych i raportów PDF.
+Wymagania były określane na podstawie założeń projektu praktyk oraz rozwijane iteracyjnie
+w trakcie implementacji.
+
+### Projekt architektury
+Aplikacja została zrealizowana w oparciu o:
+- ASP.NET Core Razor Pages,
+- Entity Framework Core,
+- relacyjną bazę danych (SQLite).
+
+Projekt wykorzystuje podział na warstwy: modele danych, logikę aplikacji
+oraz warstwę prezentacji.
+
+### Implementacja MVP
+W ramach MVP zaimplementowano:
+- operacje CRUD dla pojazdów, kierowców, serwisów oraz urlopów,
+- dashboard z danymi zbiorczymi,
+- moduły analityczne (koszty, liczba serwisów),
+- profile pojazdów i kierowców,
+- eksport raportów do PDF.
+
+Funkcjonalność była rozwijana iteracyjnie wraz z postępem prac.
+
+### Testy
+Projekt był testowany manualnie w trakcie rozwoju:
+- testowanie formularzy i walidacji danych,
+- weryfikacja poprawności zapisu do bazy danych,
+- sprawdzanie poprawności generowania raportów PDF.
+
+Ze względu na charakter projektu praktyk nie zastosowano automatycznych testów jednostkowych.
+
+### Dokumentacja
+Dokumentacja projektu obejmuje:
+- niniejszy plik README,
+- opis struktury projektu,
+- instrukcję uruchomienia aplikacji.
+
 ## Główne funkcjonalności
 
 ### Dashboard
